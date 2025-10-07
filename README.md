@@ -1,62 +1,133 @@
-# HIV Provincial Incidence Analysis in Kenya
+#  HIV Incidence Analysis in Kenya (1990–2022) and Prediction (2023-2030)
 
-## Overview
+##  Project Overview  
+This project explores **HIV incidence trends across Kenyan provinces** from **1990 to 2022**, providing insights into how the epidemic has evolved geographically and temporally.  
+Through **data wrangling, exploratory analysis, visualization, feature engineering**, and **forecasting with Prophet**, this analysis identifies key regional differences and predicts possible future HIV incidence trends up to **2030**.
 
-This repository contains a Jupyter Notebook (`HIV_Incidence_analysis_1990_2030.ipynb`) that provides an in-depth analysis of time series data related to HIV Incidence per 1000 individuals (aged 18 to 49) across various provinces in Kenya. The analysis covers the period from 1990 to 2022, focusing on identifying provincial trends and answering key epidemiological questions.
+---
 
-Additionally, the notebook leverages a prediction model to forecast the potential HIV incidence levels in Kenya for the years 2023 to 2030.
+##  Objectives  
+1. Analyze the **yearly and decadal HIV incidence trends** across all Kenyan provinces.  
+2. Identify **provinces with the highest and lowest HIV incidence** over time.  
+3. Measure **percentage change and improvement rates** to determine which province improved the fastest.  
+4. Group provinces into **regional clusters** (Central, Coastal, Rift, Western, Arid, Urban) to observe aggregated patterns.  
+5. Use **Prophet time-series forecasting** to predict HIV incidence up to 2030 for each province.  
+6. Create clear and interpretable **visuals and forecasts** that can be viewed directly on GitHub.
 
-## Key Features & Analysis
+---
 
-This project addresses several critical questions regarding HIV incidence in Kenya:
+##  Data Preparation  
+The dataset contains yearly HIV incidence rates per 1,000 people across eight provinces:
+- Central  
+- Coast  
+- Eastern  
+- Nairobi  
+- North Eastern  
+- Nyanza  
+- Rift Valley  
+- Western  
 
-* **Provincial Highs:** Identifies which province recorded the highest HIV incidence each year between 1990 and 2022.
-* **Provincial Lows:** Determines which province recorded the least HIV incidence each year within the analyzed period.
-* **Overall Highest Incidence Year:** Pinpoints the year with the highest average HIV incidence across all Kenyan provinces.
-* **Overall Lowest Incidence Year:** Identifies the year with the lowest average HIV incidence across all Kenyan provinces.
-* **Future Projections:** Utilizes a prediction model to forecast HIV incidence levels per 1000 people in Kenya from 2023 to 2030.
+### Key Steps:
+- Cleaned and standardized column names.  
+- Ensured the `year` column was correctly typed as an integer.  
+- Reshaped the dataset using **`pandas.melt()`** for easier plotting and multi-variable comparisons.  
+- Created additional engineered features:
+  - **Decade grouping** to study 10-year averages.
+  - **Year-over-year percentage change** to assess rate improvements.
+  - **Regional mapping** (e.g., Urban, Rift, Coastal, Western, Central, Arid).
 
-## Dataset
+---
 
-The dataset used for this analysis was acquired from Kaggle.
-* **Source:** [HIV Incidence per 1000 Population on Kaggle](https://www.kaggle.com/datasets/lindleylawrence/hiv-incidence-per-1000-population)
+##  Exploratory Data Analysis (EDA)
 
-## Technologies & Libraries
+### 1. Provincial Trends  
+Each province’s HIV incidence was visualized over time using **Seaborn line plots**.  
+- **Nyanza** consistently recorded the highest incidence levels throughout most of the study period.  
+- **North Eastern** showed the lowest incidence, remaining below 1 per 1,000 people.  
+- **Central and Nairobi** exhibited significant downward trends after the early 2000s.
 
-The analysis in this notebook is performed using Python and leverages the following libraries:
+### 2. Decadal Distribution  
+Grouped data by decade (1990s, 2000s, 2010s, 2020s) to show long-term averages per province.  
+- The **2000s decade** marked the peak of HIV incidence in most regions.  
+- Steady declines are observed in the 2010s and 2020s, reflecting improved health interventions.
 
-* **Pandas:** For data manipulation and analysis.
-* **NumPy:** For numerical operations.
-* **Matplotlib:** For creating static, animated, and interactive visualizations.
-* **Seaborn:** For statistical data visualization based on Matplotlib.
-* **Prophet:** For Predictive Modelling and Future Forecasting.
+### 3. Regional Grouping  
+Mapped provinces into broader regional clusters and visualized mean incidence per region:
+- **Western region (Nyanza + Western)** reported the highest cumulative incidence.  
+- **Arid and Urban regions** (North Eastern, Nairobi) recorded the lowest averages.
 
-## Notable General Findings
-   <img width="1391" height="590" alt="image" src="https://github.com/user-attachments/assets/007ae146-9565-4699-935f-88a41a5ed8fa" />
-   <img width="946" height="658" alt="image" src="https://github.com/user-attachments/assets/e4db442d-80a8-44fb-9bbb-1907c0ca8299" />
-   
-* **Findings from The Prediction Model**
+### 4. Percentage Change Analysis  
+Calculated **year-over-year percentage change** for each province to determine improvement rates.  
+- **Central Province** showed one of the steepest declines in percentage terms, indicating strong health campaign outcomes.  
+- Some provinces exhibited fluctuations tied to local outbreaks or reporting inconsistencies.
 
-**The prediction model highlights a significant drop in the HIV incidence per 1000 people across the 8 provinces from 2023 to 2030.**
+---
 
-1. *Central is predicted to drop from an all time high incidence of 15 to an incident value of 1 in 2030.*
+##  Predictive Modeling (Prophet Forecasting)
 
-2. *Eastern is predicted to drop from an all time high value of 15 to an incident value of 1 in 2030.*
+Used **Meta’s Prophet** library to forecast HIV incidence up to **2030** for each province.
 
-3. *Coast is predicted to drop from an all time high value of 20 to an incident value of 1 in 2030.*
+### Model Steps:
+1. Converted each province’s data into Prophet-compatible format (`ds` = year, `y` = incidence).  
+2. Fitted an individual Prophet model per province.  
+3. Generated yearly forecasts (2023–2030) with upper and lower confidence intervals.  
 
-4. *Nairobi is predicted to drop from an all time high value of 15 to an incident value of 2 in 2030.*
 
-5. *North eastern is predicted to drop from an all time high value of 7 to an an incident value of 0 in 2030.*
+### Forecast Insights:
+- **General national trend:** Continued decline in HIV incidence through 2030.  
+- **High-risk provinces** (e.g., Nyanza and Western) remain above the national mean but show improvement.  
+- **Low-risk provinces** (e.g., North Eastern, Central) likely to stabilize near minimal incidence levels.
 
-6. *Nyanza is predicted to drop from an all time high value of 40 to an incident value of 1 in 2030.*
+---
 
-7. *Riftvalley is predicted to drop from an all time high value of 17 to an incident value of 1 in 2030.*
+##  Geographic and Distribution Visuals
+- **Pie chart:** Shows average HIV incidence distribution across provinces (1990–2022).
+  <img width="886" height="658" alt="image" src="https://github.com/user-attachments/assets/8e0d1561-90db-4078-b398-dab26ad3f8f9" />
 
-8. *Western is predicted to drop from an all time high value of 24 to an incident value of 1 in 2030.*
+- **Decade-based bar chart:** Compares provincial HIV incidence across decades.
+  <img width="1384" height="584" alt="image" src="https://github.com/user-attachments/assets/2be667ee-ed76-453e-9ce5-796e9c27f32b" />
 
-## Contributing
 
-Feel free to fork this repository, suggest improvements, or open issues. Any contributions are welcome!
+- **Facet grid plots:** Visualize individual province trends side by side.
+  <img width="1384" height="713" alt="image" src="https://github.com/user-attachments/assets/b18984d1-0e00-4929-82cd-60ff93d29cd5" />
+
+- **Forecast visuals:** Combine predicted incidence trends with confidence bands.
+  <img width="1384" height="584" alt="image" src="https://github.com/user-attachments/assets/29ffb265-6f6b-416a-a1de-db2dca2125cb" />
+
+
+---
+
+##  Key Insights
+- HIV incidence in Kenya **peaked in the early 2000s** and has **declined steadily since 2010**.  
+- **Nyanza Province** remains the most affected region historically and in projections.  
+- **Central and Nairobi** show the **fastest improvement rates**.  
+- Forecasting suggests a **national downward trend** continuing toward 2030, driven by public health interventions, awareness, and treatment programs.  
+
+---
+
+## Tools & Technologies
+- **Python Libraries:** `pandas`, `numpy`, `matplotlib`, `seaborn`, `prophet`  
+- **Visualization Tools:** Matplotlib, Seaborn,  
+- **Environment:** Jupyter Notebook  
+- **File Outputs:** PDF and PNG charts for visualization sharing  
+
+---
+
+## Project Structure
+HIV_Incidence_Analysis/
+│
+├── data/
+│   └── hiv_incidence_1990_2022.csv
+│
+├── notebooks/
+│   └── HIV_Incidence_analysis_1990_2022.ipynb
+│
+├── visuals/
+│   ├── provincial_trends.pdf
+│   ├── regional_decade_distribution.pdf
+│   └── prophet_forecasts.pdf
+│
+├── requirements.txt
+└── README.md
 
 
